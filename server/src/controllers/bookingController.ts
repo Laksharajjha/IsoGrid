@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Booking, Bed, Patient } from '../models';
+import { checkAdjacencyRisk } from '../services/allocationService';
 
 export const getBookings = async (req: Request, res: Response) => {
     try {
@@ -26,6 +27,12 @@ export const createBooking = async (req: Request, res: Response) => {
         }
         if (bed.status !== 'AVAILABLE') {
             return res.status(400).json({ error: 'Bed is not available' });
+        }
+
+        // Check for adjacency risk
+        const isRisky = await checkAdjacencyRisk(bed.wardId, bed.row, bed.col);
+        if (isRisky) {
+            return res.status(400).json({ error: 'Bed is blocked due to infectious neighbor risk' });
         }
 
         const booking = await Booking.create({ patientId, bedId, startDate, endDate });
