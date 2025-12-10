@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: isogrid-server
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+    autoDeploy: true
+    rootDir: server
+
+databases:
+  - name: isogrid-db
+    plan: free
+    databaseName: isogrid
+    user: isogrid_user
+
+version: "1"
