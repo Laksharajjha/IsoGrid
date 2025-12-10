@@ -50,7 +50,7 @@ const WardView: React.FC = () => {
             socket.off('bed-unlocked');
             socket.off('ward-updated');
         };
-    }, [socket]);
+    }, [socket, id]);
 
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 1000);
