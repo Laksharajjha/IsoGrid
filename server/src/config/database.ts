@@ -3,21 +3,25 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelize = new Sequelize(
-    process.env.DB_NAME || 'isogrid',
-    process.env.DB_USER || 'postgres',
-    process.env.DB_PASSWORD || 'postgres',
-    {
-        host: process.env.DB_HOST || 'localhost',
+const isProduction = process.env.NODE_ENV === 'production';
+const databaseUrl = process.env.DATABASE_URL;
+
+const sequelize = databaseUrl
+    ? new Sequelize(databaseUrl, {
         dialect: 'postgres',
+        protocol: 'postgres',
         logging: false,
-        pool: {
-            max: 5,
-            min: 0,
-            acquire: 30000,
-            idle: 10000
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false // Required for some cloud DBs like Heroku/Railway
+            }
         }
-    }
-);
+    })
+    : new Sequelize({
+        dialect: 'sqlite',
+        storage: './database.sqlite',
+        logging: false,
+    });
 
 export default sequelize;
