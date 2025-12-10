@@ -29,8 +29,14 @@ export const createBooking = async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Bed is not available' });
         }
 
+        // Check if patient exists
+        const patient = await Patient.findByPk(patientId);
+        if (!patient) {
+            return res.status(404).json({ error: 'Patient not found' });
+        }
+
         // Check for adjacency risk
-        const isRisky = await checkAdjacencyRisk(bed.wardId, bed.row, bed.col);
+        const isRisky = await checkAdjacencyRisk(bed.id, patient.condition === 'INFECTIOUS');
         if (isRisky) {
             return res.status(400).json({ error: 'Bed is blocked due to infectious neighbor risk' });
         }

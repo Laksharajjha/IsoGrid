@@ -21,9 +21,12 @@ Booking.belongsTo(Patient, { foreignKey: 'patientId', as: 'patient' });
 Bed.hasMany(Booking, { foreignKey: 'bedId', as: 'bookings' });
 Booking.belongsTo(Bed, { foreignKey: 'bedId', as: 'bed' });
 
+import ActivityLog from './ActivityLog';
+
 export {
     Ward,
     Bed,
     Patient,
     Booking,
+    ActivityLog,
 };

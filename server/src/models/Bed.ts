@@ -7,8 +7,9 @@ class Bed extends Model {
     public wardId!: number;
     public row!: number;
     public col!: number;
-    public status!: 'AVAILABLE' | 'OCCUPIED' | 'BLOCKED';
+    public status!: 'AVAILABLE' | 'OCCUPIED' | 'BLOCKED' | 'MAINTENANCE';
     public type!: 'REGULAR' | 'ICU';
+    public maintenanceStartTime!: Date | null;
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
@@ -38,12 +39,16 @@ Bed.init(
             allowNull: false,
         },
         status: {
-            type: DataTypes.ENUM('AVAILABLE', 'OCCUPIED', 'BLOCKED'),
+            type: DataTypes.ENUM('AVAILABLE', 'OCCUPIED', 'BLOCKED', 'MAINTENANCE'),
             defaultValue: 'AVAILABLE',
         },
         type: {
             type: DataTypes.ENUM('REGULAR', 'ICU'),
             defaultValue: 'REGULAR',
+        },
+        maintenanceStartTime: {
+            type: DataTypes.DATE,
+            allowNull: true,
         },
     },
     {

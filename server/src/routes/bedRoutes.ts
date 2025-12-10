@@ -3,7 +3,7 @@ import { getBeds, updateBedStatus } from '../controllers/bedController';
 
 const router = Router();
 
-router.get('/', getBeds);
+router.get('/:wardId', getBeds);
 router.patch('/:id/status', updateBedStatus);
 
 export default router;
