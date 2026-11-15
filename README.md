@@ -120,3 +120,7 @@ The frontend is configured with a `vercel.json` for SPA routing.
 
 ## 📜 License
 This project is open-source and available under the ISC License.
+
+## PROJECT FORGE Autonomous Verification
+
+- Verified on isolated branch `forge/isogrid-acceptance-a1f9d4`.
